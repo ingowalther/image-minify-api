@@ -11,6 +11,7 @@
 		- [Create API-Key](#)
 	- [Compress an Image](#)
 		- [Response](#)
+	- [TODO](#)	
 
 Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 
