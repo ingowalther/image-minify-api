@@ -15,7 +15,7 @@
 Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 
 Currently supports:
- - jpeg (mozJpeg)
+ - jpeg (mozJpeg, Installation Instructions: http://mozjpeg.codelove.de/binaries.html)
 
 ## Installation
 ### Clone Repository
@@ -80,3 +80,10 @@ You will get a Json-Response like this:
 | oldSize  | ImageSize before compressing (in Byte)  |
 | newSize  | ImageSize after compressing (in Byte)  |
 | image  | The binarydata of the compressed image (base64 encoded)  |
+
+## TODO
+- PNG-Support
+- Quota
+- Setting quality over configuration
+- Setting binary path configuration
+- Logging
