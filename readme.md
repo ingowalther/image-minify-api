@@ -1,18 +1,5 @@
 # Image Minify API
 
-- [Image Minify API](#)
-	- [Installation](#)
-		- [Clone Repository](#)
-		- [Install Dependencies (Composer)](#)
-		- [Set Database-Connection](#)
-		- [Create Database Tables](#)
-		- [Setup Webserver](#)
-	- [Usage](#)
-		- [Create API-Key](#)
-	- [Compress an Image](#)
-		- [Response](#)
-	- [TODO](#)	
-
 Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 
 Currently supports:
@@ -56,7 +43,7 @@ chmod a+x bin/create-user;
 Enter a Username.
 If the user is created correctly you will see the API-Key in your Terminal.
 
-## Compress an Image
+### Compress an Image
 
 POST with Params "api_key" and File with Name "image" to http://yourserver/minify
 
@@ -65,7 +52,7 @@ Example:
 curl --form "image=@test.jpg" --form api_key=VVDFNNflLIQdCH5vnx0RkmCxxjhHIL6  http://localhost/minify > test_2.jpg)
 ```
 
-### Response
+#### Response
 You will get a Json-Response like this:
 ```
 {
