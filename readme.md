@@ -1,5 +1,17 @@
 # Image Minify API
 
+- [Image Minify API](#)
+	- [Installation](#)
+		- [Clone Repository](#)
+		- [Install Dependencies (Composer)](#)
+		- [Set Database-Connection](#)
+		- [Create Database Tables](#)
+		- [Setup Webserver](#)
+	- [Usage](#)
+		- [Create API-Key](#)
+	- [Compress an Image](#)
+		- [Response](#)
+
 Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 
 Currently supports:
