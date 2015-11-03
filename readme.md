@@ -2,6 +2,19 @@
 
 Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 
+- [Image Minify API](#)
+	- [Installation](#installation)
+		- [Clone Repository](#clone-repository)
+		- [Install Dependencies (Composer)](#install-dependencies-composer)
+		- [Set Database-Connection](#set-database-connection)
+		- [Create Database Tables](#create-database-tables)
+		- [Setup Webserver](#setup-webserver)
+	- [Usage](#usage)
+		- [Create API-Key](#create-api-key)
+	    - [Compress an Image](#compress-an-image)
+		    - [Response](#response)
+	- [TODO](#todo)	
+
 Currently supports:
  - jpeg (mozJpeg, Installation Instructions: http://mozjpeg.codelove.de/binaries.html)
 
