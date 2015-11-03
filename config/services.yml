@@ -1,0 +1,26 @@
+parameters:
+  connentionParams:
+    url: mysql://root:root@localhost/image-minify-api
+
+services:
+  minify:
+    class: IngoWalther\ImageMinifyApi\Minify\Minify
+    arguments: [@fileHandler]
+    calls:
+      - [addCompressor, [@mozJpegCompressor]]
+  mozJpegCompressor:
+    class: IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor
+  fileHandler:
+    class: IngoWalther\ImageMinifyApi\File\FileHandler
+  apiKeyCheck:
+    class: IngoWalther\ImageMinifyApi\Security\ApiKeyCheck
+    arguments: [@dbConnection]
+  apiKeyGenerator:
+    class: IngoWalther\ImageMinifyApi\Security\ApiKeyGenerator
+    arguments: [@dbConnection]
+  dbConfig:
+    class: Doctrine\DBAL\Configuration
+  dbConnection:
+    factory_class: Doctrine\DBAL\DriverManager
+    factory_method: getConnection
+    arguments: [%connentionParams%, @dbConfig]

@@ -1,0 +1,27 @@
+{
+  "name": "Image Minify API",
+  "homepage": "https://github.com/ingowalther/image-minify-api",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ingo Walther",
+      "email": "ingowalther@iwebspace.net"
+    }
+  ],
+  "require": {
+    "silex/silex": "~1.3",
+    "adambrett/shell-wrapper": "dev-master",
+    "symfony/dependency-injection": "2.7.6",
+    "symfony/yaml": "2.7.6",
+    "symfony/config": "2.7.6",
+    "doctrine/dbal": "2.5.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.0.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "IngoWalther\\ImageMinifyApi\\": "src/"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+#!/usr/bin/php
+<?php
+
+use \Symfony\Component\DependencyInjection\ContainerBuilder;
+use \Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use \Symfony\Component\Config\FileLocator;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$container = new ContainerBuilder();
+$loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config'));
+$loader->load('services.yml');
+
+$climate = new \League\CLImate\CLImate();
+$climate->addArt(__DIR__);
+
+$climate->border();
+$climate->backgroundGreen()->black()->out('Image Minify API - Create User');
+$climate->border();
+$climate->out(PHP_EOL);
+
+try {
+    $input = $climate->input('Username:');
+    $response = $input->prompt();
+
+    /** @var \IngoWalther\ImageMinifyApi\Security\ApiKeyGenerator $apiKeyGenerator */
+    $apiKeyGenerator = $container->get('apiKeyGenerator');
+    $key = $apiKeyGenerator->generate($response);
+
+    $climate->grren()->draw('success');
+    $climate->green()->out(sprintf('User "%s" succesfully created', $response));
+
+    $climate->border();
+    $climate->out('API-KEY:' . $key);
+    $climate->border();
+} catch (\Exception $e) {
+    $climate->draw('oops');
+    $climate->border();
+    $climate->red()->out(sprintf('Creation failed with Message: <bold>%s</bold>', $e->getMessage()));
+}
