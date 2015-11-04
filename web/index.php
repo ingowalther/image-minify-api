@@ -13,15 +13,13 @@ $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config')
 $loader->load('services.yml');
 
 $app->post('/minify', function(\Symfony\Component\HttpFoundation\Request $request) use ($container) {
-
     $apiKeyCheck = $container->get('apiKeyCheck');
     $apiKeyCheck->check($request);
 
     $minify = $container->get('minify');
     $result = $minify->minify($request);
 
-    return new \Symfony\Component\HttpFoundation\Response($result);
-
+    return $result;
 }) ;
 
 $app->error(function (\Exception $e, $code) {
