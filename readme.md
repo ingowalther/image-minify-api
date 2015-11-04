@@ -38,7 +38,7 @@ to your settings
 ### Create Database Tables
 ```
 chmod a+x bin/setup;
-.bin/setup;
+./bin/setup;
 ```
 
 ### Setup Webserver
@@ -51,7 +51,7 @@ vHost DocRoot -> web/
 ### Create API-Key
 ```
 chmod a+x bin/create-user;
-.bin/create-user
+./bin/create-user
 ```
 Enter a Username.
 If the user is created correctly you will see the API-Key in your Terminal.
@@ -62,7 +62,7 @@ POST with Params "api_key" and File with Name "image" to http://yourserver/minif
 
 Example:
 ```
-curl --form "image=@test.jpg" --form api_key=VVDFNNflLIQdCH5vnx0RkmCxxjhHIL6  http://localhost/minify > test_2.jpg)
+curl --form "image=@test.jpg" --form api_key=VVDFNNflLIQdCH5vnx0RkmCxxjhHIL6  http://localhost/minify > test_2.jpg
 ```
 
 #### Response
