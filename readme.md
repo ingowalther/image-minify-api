@@ -88,3 +88,4 @@ You will get a Json-Response like this:
 - Setting quality over configuration
 - Setting binary path configuration
 - Logging
+- List Users
