@@ -10,11 +10,12 @@
   ],
   "require": {
     "silex/silex": "~1.3",
-    "adambrett/shell-wrapper": "dev-master",
+    "adambrett/shell-wrapper": "0.6",
     "symfony/dependency-injection": "2.7.6",
     "symfony/yaml": "2.7.6",
     "symfony/config": "2.7.6",
-    "doctrine/dbal": "2.5.2"
+    "doctrine/dbal": "2.5.2",
+    "league/climate": "3.2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "5.0.*"
