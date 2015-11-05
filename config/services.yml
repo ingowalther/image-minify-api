@@ -1,7 +1,7 @@
 parameters:
   connentionParams:
     url: mysql://root:root@localhost/image-minify-api
-
+  configPath: %basePath%/config
 services:
   minify:
     class: IngoWalther\ImageMinifyApi\Minify\Minify
@@ -17,9 +17,12 @@ services:
     class: IngoWalther\ImageMinifyApi\File\FileHandler
   apiKeyCheck:
     class: IngoWalther\ImageMinifyApi\Security\ApiKeyCheck
-    arguments: [@dbConnection]
+    arguments: [@userRepository]
   apiKeyGenerator:
     class: IngoWalther\ImageMinifyApi\Security\ApiKeyGenerator
+    arguments: [@userRepository]
+  userRepository:
+    class: IngoWalther\ImageMinifyApi\Database\UserRepository
     arguments: [@dbConnection]
   dbConfig:
     class: Doctrine\DBAL\Configuration
@@ -27,3 +30,23 @@ services:
     factory_class: Doctrine\DBAL\DriverManager
     factory_method: getConnection
     arguments: [%connentionParams%, @dbConfig]
+
+  console:
+    class: Symfony\Component\Console\Application
+    calls:
+      - [add, [@addUserCommand]]
+      - [add, [@listUserCommand]]
+      - [add, [@setupCommand]]
+  addUserCommand:
+    class: IngoWalther\ImageMinifyApi\Command\AddUserCommand
+    calls:
+      - [setApiKeyGenerator, [@apiKeyGenerator]]
+  listUserCommand:
+    class: IngoWalther\ImageMinifyApi\Command\ListUserCommand
+    calls:
+      - [setUserRepository, [@userRepository]]
+  setupCommand:
+    class: IngoWalther\ImageMinifyApi\Command\SetupCommand
+    calls:
+      - [setConnection, [@dbConnection]]
+      - [setConfigPath, [%configPath%]]

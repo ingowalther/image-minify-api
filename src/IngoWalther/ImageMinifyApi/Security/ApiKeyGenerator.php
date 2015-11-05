@@ -2,7 +2,7 @@
 
 namespace IngoWalther\ImageMinifyApi\Security;
 
-use Doctrine\DBAL\Driver\Connection;
+use IngoWalther\ImageMinifyApi\Database\UserRepository;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
@@ -12,21 +12,22 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class ApiKeyGenerator
 {
     /**
-     * @var Connection
+     * @var UserRepository
      */
-    private $connection;
+    private $userRepository;
 
     /**
      * ApiKeyGenerator constructor.
      * @param Connection $connection
      */
-    public function __construct(Connection $connection)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->connection = $connection;
+        $this->userRepository = $userRepository;
     }
 
     /**
      * @param $username
+     * @return string
      */
     public function generate($username)
     {
@@ -36,9 +37,7 @@ class ApiKeyGenerator
             $key = RandomString::generate();
         } while (!$this->checkKey($key));
 
-        $statement = $this->connection->prepare('INSERT INTO `user` (`id`, `name`, `api_key`) VALUES (NULL, ?, ?)');
-        $statement->execute(array($username, $key));
-
+        $this->userRepository->addUser($username, $key);
         return $key;
     }
 
@@ -47,24 +46,22 @@ class ApiKeyGenerator
      */
     private function checkUsername($username)
     {
-        $stmt = $this->connection->prepare('SELECT * FROM `user` WHERE `name` = ?');
-        $stmt->execute(array($username));
-
-        if ($stmt->rowCount() > 0) {
+        $user = $this->userRepository->findUserByName($username);
+        if ($user) {
             throw new Exception('This username is taken');
         }
     }
 
     private function checkKey($key)
     {
-        $stmt = $this->connection->prepare('SELECT * FROM `user` WHERE `api_key` = ?');
-        $stmt->execute(array($key));
-
-        if ($stmt->rowCount() > 0) {
+        $user = $this->userRepository->findUserByKey($key);
+        if($user) {
             return false;
         }
         return true;
     }
+
+
 
 
 }

@@ -9,6 +9,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = new Silex\Application();
 
 $container = new ContainerBuilder();
+$container->setParameter('basePath', realpath(__DIR__ . '/../'));
 $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config'));
 $loader->load('services.yml');
 

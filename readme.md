@@ -13,6 +13,7 @@ Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 		- [Create API-Key](#create-api-key)
 	    - [Compress an Image](#compress-an-image)
 		    - [Response](#response)
+		- [List all user](#list-all-user)    
     - [Clients](#api-clients)         
 	- [TODO](#todo)	
 
@@ -39,8 +40,8 @@ Change  'config/services.yml':
 to your settings
 ### Create Database Tables
 ```sh
-chmod a+x bin/setup;
-./bin/setup;
+chmod a+x bin/console;
+bin/console image-minify-api:setup
 ```
 
 ### Setup Webserver
@@ -52,8 +53,7 @@ vHost DocRoot -> web/
 
 ### Create API-Key
 ```sh
-chmod a+x bin/create-user;
-./bin/create-user
+ bin/console user:add
 ```
 Enter a Username.
 If the user is created correctly you will see the API-Key in your Terminal.
@@ -83,6 +83,14 @@ You will get a Json-Response like this:
 | oldSize  | ImageSize before compressing (in Byte)  |
 | newSize  | ImageSize after compressing (in Byte)  |
 | image  | The binarydata of the compressed image (base64 encoded)  |
+
+### List all user
+```sh
+ bin/console user:list
+```
+Output:
+![Console output](http://i.imgur.com/6SKcBcF.png)
+
 ## API-Clients
 
 PHP: https://github.com/ingowalther/image-minify-php-client
@@ -92,4 +100,3 @@ PHP: https://github.com/ingowalther/image-minify-php-client
 - Setting quality over configuration
 - Setting binary path configuration
 - Logging
-- List Users

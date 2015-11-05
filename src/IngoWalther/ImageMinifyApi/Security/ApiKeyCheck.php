@@ -2,7 +2,7 @@
 
 namespace IngoWalther\ImageMinifyApi\Security;
 
-use Doctrine\DBAL\Driver\Connection;
+use IngoWalther\ImageMinifyApi\Database\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -12,19 +12,18 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class ApiKeyCheck
 {
-
     /**
-     * @var Connection
+     * @var UserRepository
      */
-    private $connection;
+    private $userRepository;
 
     /**
      * ApiKeyCheck constructor.
-     * @param Connection $connection
+     * @param UserRepository $userRepository
      */
-    public function __construct(Connection $connection)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->connection = $connection;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -55,11 +54,9 @@ class ApiKeyCheck
     private function isKeyValid(Request $request)
     {
         $key = $request->get('api_key');
+        $user = $this->userRepository->findUserByKey($key);
 
-        $stmt = $this->connection->prepare('SELECT * FROM `user` WHERE `api_key` = ?');
-        $stmt->execute(array($key));
-
-        if (!$stmt->rowCount()) {
+        if(!$user) {
             throw new AccessDeniedHttpException('Your API key is not valid');
         }
     }
