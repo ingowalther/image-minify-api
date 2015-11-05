@@ -22,21 +22,21 @@ Currently supports:
 ### Clone Repository
 ```
 git clone git@github.com:ingowalther/image-minify-api.git
-```
+```sh
 ### Install Dependencies (Composer)
-```
+```sh
 composer install
 ```
 ### Set Database-Connection
 
 Change  'config/services.yml':
-```
+```yaml
   connentionParams:
     url: mysql://root:root@localhost/image-minify-api
 ```
 to your settings
 ### Create Database Tables
-```
+```sh
 chmod a+x bin/setup;
 ./bin/setup;
 ```
@@ -49,7 +49,7 @@ vHost DocRoot -> web/
 ## Usage
 
 ### Create API-Key
-```
+```sh
 chmod a+x bin/create-user;
 ./bin/create-user
 ```
@@ -61,13 +61,13 @@ If the user is created correctly you will see the API-Key in your Terminal.
 POST with Params "api_key" and File with Name "image" to http://yourserver/minify
 
 Example:
-```
+```sh
 curl --form "image=@test.jpg" --form api_key=VVDFNNflLIQdCH5vnx0RkmCxxjhHIL6  http://localhost/minify > test_2.jpg
 ```
 
 #### Response
 You will get a Json-Response like this:
-```
+```json
 {
    "success":true,
    "oldSize":539,
