@@ -20,9 +20,9 @@ Currently supports:
 
 ## Installation
 ### Clone Repository
-```
-git clone git@github.com:ingowalther/image-minify-api.git
 ```sh
+git clone git@github.com:ingowalther/image-minify-api.git
+```
 ### Install Dependencies (Composer)
 ```sh
 composer install
