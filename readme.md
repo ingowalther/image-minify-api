@@ -89,6 +89,7 @@ You will get a Json-Response like this:
  bin/console user:list
 ```
 Output:
+
 ![Console output](http://i.imgur.com/6SKcBcF.png)
 
 ## API-Clients
