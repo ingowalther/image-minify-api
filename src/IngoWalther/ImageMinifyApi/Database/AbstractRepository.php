@@ -2,7 +2,7 @@
 
 namespace IngoWalther\ImageMinifyApi\Database;
 
-use Doctrine\DBAL\Connection;
+use \Doctrine\DBAL\Driver\Connection;
 
 /**
  * Class AbstractRepository
