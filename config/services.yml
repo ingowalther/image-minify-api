@@ -8,8 +8,11 @@ services:
     arguments: [@fileHandler]
     calls:
       - [addCompressor, [@mozJpegCompressor]]
+      - [addCompressor, [@pngquantCompressor]]
   mozJpegCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor
+  pngquantCompressor:
+    class: IngoWalther\ImageMinifyApi\Compressor\PngquantCompressor
   fileHandler:
     class: IngoWalther\ImageMinifyApi\File\FileHandler
   apiKeyCheck:
