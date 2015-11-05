@@ -13,6 +13,7 @@ Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 		- [Create API-Key](#create-api-key)
 	    - [Compress an Image](#compress-an-image)
 		    - [Response](#response)
+    - [Clients](#api-clients)         
 	- [TODO](#todo)	
 
 Currently supports:
@@ -82,6 +83,9 @@ You will get a Json-Response like this:
 | oldSize  | ImageSize before compressing (in Byte)  |
 | newSize  | ImageSize after compressing (in Byte)  |
 | image  | The binarydata of the compressed image (base64 encoded)  |
+## API-Clients
+
+PHP: https://github.com/ingowalther/image-minify-php-client
 
 ## TODO
 - Quota
