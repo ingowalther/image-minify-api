@@ -15,12 +15,14 @@ services:
     class: IngoWalther\ImageMinifyApi\Compressor\PngquantCompressor
   fileHandler:
     class: IngoWalther\ImageMinifyApi\File\FileHandler
+  randomStringGenerator:
+    class: IngoWalther\ImageMinifyApi\Security\RandomStringGenerator
   apiKeyCheck:
     class: IngoWalther\ImageMinifyApi\Security\ApiKeyCheck
     arguments: [@userRepository]
   apiKeyGenerator:
     class: IngoWalther\ImageMinifyApi\Security\ApiKeyGenerator
-    arguments: [@userRepository]
+    arguments: [@userRepository, @randomStringGenerator]
   userRepository:
     class: IngoWalther\ImageMinifyApi\Database\UserRepository
     arguments: [@dbConnection]

@@ -3,23 +3,26 @@
 namespace IngoWalther\ImageMinifyApi\Security;
 
 /**
- * Class RandomString
+ * Class RandomStringGenerator
  * @package IngoWalther\ImageMinifyApi\Security
  */
-class RandomString
+class RandomStringGenerator
 {
+    private $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
     /**
      * Generates a random String
      *
      * @param int $length
      * @return string
      */
-    public static function generate($length = 32)
+    public function generate($length = 32)
     {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $string = '';
+
+        $max = strlen($this->characters) - 1;
         for ($i = 0; $i < $length; $i++) {
-            $string .= $characters[rand(0, strlen($characters) - 1)];
+            $string .= $this->characters[rand(0,$max)];
         }
         return $string;
     }

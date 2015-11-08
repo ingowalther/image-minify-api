@@ -17,12 +17,18 @@ class ApiKeyGenerator
     private $userRepository;
 
     /**
+     * @var RandomStringGenerator
+     */
+    private $randomStringGenerator;
+
+    /**
      * ApiKeyGenerator constructor.
      * @param Connection $connection
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, RandomStringGenerator $randomStringGenerator)
     {
         $this->userRepository = $userRepository;
+        $this->randomStringGenerator = $randomStringGenerator;
     }
 
     /**
@@ -34,7 +40,7 @@ class ApiKeyGenerator
         $this->checkUsername($username);
 
         do {
-            $key = RandomString::generate();
+            $key = $this->randomStringGenerator->generate();
         } while (!$this->checkKey($key));
 
         $this->userRepository->addUser($username, $key);
@@ -60,8 +66,4 @@ class ApiKeyGenerator
         }
         return true;
     }
-
-
-
-
 }
