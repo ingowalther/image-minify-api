@@ -11,4 +11,4 @@ matrix:
     - php: nightly
 
 before_script:
-  - composer install
+  - composer install --no-dev
