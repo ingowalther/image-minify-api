@@ -108,13 +108,9 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
 
     private function createMockFile()
     {
-        $file = $this->getMock(
-            'Symfony\Component\HttpFoundation\File\UploadedFile',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')
+                     ->setConstructorArgs(array('/tmp/test', 'test', null, null, 'test'))
+                     ->getMock();
 
         $file->expects($this->any())
             ->method('getRealPath')
@@ -125,13 +121,9 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
 
     private function createMockCompressor($type)
     {
-        $compressor = $this->getMock(
-            'IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $compressor = $this->getMockBuilder('IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor')
+                           ->disableOriginalConstructor(true)
+                           ->getMock();
 
         $compressor->expects($this->any())
                    ->method('getFileTypeToHandle')
