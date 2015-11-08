@@ -2,6 +2,8 @@
 
 Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 
+[![Build Status](https://travis-ci.org/ingowalther/image-minify-api.svg?branch=master)](https://travis-ci.org/ingowalther/image-minify-api)
+
 - [Image Minify API](#)
 	- [Installation](#installation)
 		- [Clone Repository](#clone-repository)
