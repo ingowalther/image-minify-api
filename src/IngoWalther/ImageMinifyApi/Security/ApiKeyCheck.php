@@ -33,7 +33,9 @@ class ApiKeyCheck
     public function check(Request $request)
     {
         $this->checkKeyExists($request);
-        $this->isKeyValid($request);
+        $user = $this->isKeyValid($request);
+
+        return $user;
     }
 
     /**
@@ -59,5 +61,6 @@ class ApiKeyCheck
         if(!$user) {
             throw new AccessDeniedHttpException('Your API key is not valid');
         }
+        return $user;
     }
 }
