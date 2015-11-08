@@ -24,23 +24,8 @@ $app->post('/minify', function(\Symfony\Component\HttpFoundation\Request $reques
 }) ;
 
 $app->error(function (\Exception $e, $code) {
-    switch ($code) {
-        case 404:
-            $data = array(
-                'success' => 'false',
-                'code'    => '404',
-                'message' => 'The requested page could not be found.',
-            );
-            break;
-        default:
-            $data = array(
-                'success' => 'false',
-                'code'    => $code,
-                'message' => $e->getMessage(),
-            );
-    }
-
-    return new \Symfony\Component\HttpFoundation\JsonResponse($data, $code);
+    $errorHandler = new \IngoWalther\ImageMinifyApi\Error\ErrorHandler();
+    return $errorHandler->handle($e, $code);
 });
 
 $app->run();
