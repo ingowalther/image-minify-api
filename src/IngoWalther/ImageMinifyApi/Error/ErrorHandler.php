@@ -2,6 +2,7 @@
 
 namespace IngoWalther\ImageMinifyApi\Error;
 
+use Monolog\Logger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -10,6 +11,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class ErrorHandler
 {
+    /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
+     * ErrorHandler constructor.
+     * @param Logger $logger
+     */
+    public function __construct(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @param \Exception $e
      * @param $code
@@ -32,6 +47,10 @@ class ErrorHandler
                     'message' => $e->getMessage(),
                 );
         }
+
+        $this->logger->error(
+            sprintf('%s: %s', get_class($e), $e->getMessage())
+        );
 
         return new JsonResponse($data, $code);
     }

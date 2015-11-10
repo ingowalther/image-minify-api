@@ -14,17 +14,21 @@ $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config')
 $loader->load('services.yml');
 
 $app->post('/minify', function(\Symfony\Component\HttpFoundation\Request $request) use ($container) {
+
+    $validator = new \IngoWalther\ImageMinifyApi\Validator\RequestValidator();
+    $validator->validateRequest($request);
+
     $apiKeyCheck = $container->get('apiKeyCheck');
-    $apiKeyCheck->check($request);
+    $user = $apiKeyCheck->check($request->request->get('api_key'));
 
     $minify = $container->get('minify');
-    $result = $minify->minify($request);
+    $result = $minify->minify($request->files->get('image'), $user);
 
     return $result;
-}) ;
+});
 
-$app->error(function (\Exception $e, $code) {
-    $errorHandler = new \IngoWalther\ImageMinifyApi\Error\ErrorHandler();
+$app->error(function (\Exception $e, $code) use ($container) {
+    $errorHandler = $container->get('errorHandler');
     return $errorHandler->handle($e, $code);
 });
 

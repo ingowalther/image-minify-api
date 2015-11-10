@@ -3,7 +3,6 @@
 namespace IngoWalther\ImageMinifyApi\Test\Minify;
 
 use IngoWalther\ImageMinifyApi\Minify\Minify;
-use Symfony\Component\HttpFoundation\Request;
 
 class MinifyTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,35 +22,26 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->object = new Minify($this->fileHandler);
-    }
+        $logger = $this->getMockBuilder('Monolog\Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-    public function testWithNoFile()
-    {
-        $request = new Request();
-        $this->setExpectedException('InvalidArgumentException');
-        $this->object->minify($request);
+        $this->object = new Minify($this->fileHandler, $logger);
     }
 
     public function testWithNoCompressor()
     {
-        $request = new Request();
-        $request->files->add(array('image' => $this->createMockFile()));
-
         $this->fileHandler->expects($this->once())
              ->method('getFileType')
              ->with('/tmp/foobar')
             ->will($this->returnValue('image/jpeg'));
 
         $this->setExpectedException('InvalidArgumentException');
-        $this->object->minify($request);
+        $this->object->minify($this->createMockFile(), ['name' => 'foobar']);
     }
 
     public function testWithNoMatchingCompressor()
     {
-        $request = new Request();
-        $request->files->add(array('image' => $this->createMockFile()));
-
         $this->fileHandler->expects($this->once())
             ->method('getFileType')
             ->with('/tmp/foobar')
@@ -60,14 +50,12 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException');
 
         $this->object->addCompressor($this->createMockCompressor('image/jpeg'));
-        $this->object->minify($request);
+        $this->object->minify($this->createMockFile(), ['name' => 'foobar']);
     }
 
     public function testWithMatchingCompressor()
     {
-        $request = new Request();
         $image = $this->createMockFile();
-        $request->files->add(array('image' => $image));
 
         $this->fileHandler->expects($this->once())
             ->method('getFileType')
@@ -101,7 +89,7 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
             ->with('/tmp/foobar_compressed');
 
         $this->object->addCompressor($compressor);
-        $result = $this->object->minify($request);
+        $result = $this->object->minify($image, ['name' => 'foobar']);
 
         $this->assertEquals('IngoWalther\ImageMinifyApi\Response\CompressedFileResponse', get_class($result));
     }

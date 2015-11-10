@@ -4,9 +4,11 @@ namespace IngoWalther\ImageMinifyApi\Minify;
 
 use IngoWalther\ImageMinifyApi\Compressor\Compressor;
 use IngoWalther\ImageMinifyApi\File\FileHandler;
+use IngoWalther\ImageMinifyApi\File\FileSizeFormatter;
+use IngoWalther\ImageMinifyApi\File\SavingCalculator;
 use IngoWalther\ImageMinifyApi\Response\CompressedFileResponse;
+use Monolog\Logger;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Minify
@@ -25,12 +27,18 @@ class Minify
     private $fileHandler;
 
     /**
+     * @var Logger
+     */
+    private $logger;
+
+    /**
      * Minify constructor.
      * @param FileHandler $fileHandler
      */
-    public function __construct(FileHandler $fileHandler)
+    public function __construct(FileHandler $fileHandler, Logger $logger)
     {
         $this->fileHandler = $fileHandler;
+        $this->logger = $logger;
     }
 
     /**
@@ -44,16 +52,12 @@ class Minify
     /**
      * Minifies the given Image
      *
-     * @param Request $request
+     * @param UploadedFile $file
+     * @param array $user
      * @return CompressedFileResponse
      */
-    public function minify(Request $request)
+    public function minify(UploadedFile $file, $user)
     {
-        $this->checkForImage($request);
-
-        /** @var UploadedFile $file */
-        $file = $request->files->get('image');
-
         $fileType = $this->fileHandler->getFileType($file->getRealPath());
 
         $compressorToUse = $this->getCompressorToUse($fileType);
@@ -66,19 +70,20 @@ class Minify
         $binaryContent = $this->fileHandler->getFileContent($path);
         $this->fileHandler->delete($path);
 
-        return new CompressedFileResponse($oldSize, $newSize, $binaryContent);
-    }
+        $savingCalculator = new SavingCalculator();
+        $saving = $savingCalculator->calculate($oldSize, $newSize);
 
-    /**
-     * Check if image is in request
-     *
-     * @param Request $request
-     */
-    private function checkForImage(Request $request)
-    {
-        if (!$request->files->has('image')) {
-            throw new \InvalidArgumentException('No Image given');
-        }
+        $fomatter = new FileSizeFormatter();
+
+        $this->logger->info(
+            sprintf('[%s] Succesfully compressed Image - Old: %s, New: %s, Saving: %d%%',
+                $user['name'],
+                $fomatter->humanReadable($oldSize),
+                $fomatter->humanReadable($newSize),
+                $saving)
+        );
+
+        return new CompressedFileResponse($oldSize, $newSize, $binaryContent);
     }
 
     /**
@@ -97,6 +102,5 @@ class Minify
             sprintf('Filetype "%s" not supported', $fileType)
         );
     }
-
 
 }

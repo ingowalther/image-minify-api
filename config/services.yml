@@ -2,10 +2,12 @@ parameters:
   connentionParams:
     url: mysql://root:root@localhost/image-minify-api
   configPath: %basePath%/config
+  logPath: %basePath%/log
+
 services:
   minify:
     class: IngoWalther\ImageMinifyApi\Minify\Minify
-    arguments: [@fileHandler]
+    arguments: [@fileHandler, @logger]
     calls:
       - [addCompressor, [@mozJpegCompressor]]
       - [addCompressor, [@pngquantCompressor]]
@@ -32,6 +34,19 @@ services:
     factory_class: Doctrine\DBAL\DriverManager
     factory_method: getConnection
     arguments: [%connentionParams%, @dbConfig]
+  errorHandler:
+    class: IngoWalther\ImageMinifyApi\Error\ErrorHandler
+    arguments: [@logger]
+
+  logger:
+    class: Monolog\Logger
+    arguments: ['ImageMinifyApi']
+    calls:
+      - [pushHandler, [@logHandler]]
+
+  logHandler:
+    class: Monolog\Handler\StreamHandler
+    arguments: [%logPath%/app.log]
 
   console:
     class: Symfony\Component\Console\Application

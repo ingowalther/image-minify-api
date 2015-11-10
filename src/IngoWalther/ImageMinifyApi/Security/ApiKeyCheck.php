@@ -3,7 +3,6 @@
 namespace IngoWalther\ImageMinifyApi\Security;
 
 use IngoWalther\ImageMinifyApi\Database\UserRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -28,35 +27,21 @@ class ApiKeyCheck
 
     /**
      * Checks for valid API-Key
-     * @param Request $request
+     * @param string $apiKey
      */
-    public function check(Request $request)
+    public function check($apiKey)
     {
-        $this->checkKeyExists($request);
-        $user = $this->isKeyValid($request);
-
+        $user = $this->isKeyValid($apiKey);
         return $user;
     }
 
     /**
-     * Checks if API-Key is supplied
-     * @param Request $request
-     */
-    private function checkKeyExists(Request $request)
-    {
-        if (!$request->get('api_key', false)) {
-            throw new AccessDeniedHttpException('You must supply an API Key');
-        }
-    }
-
-    /**
      * Checks if API-Key is valid
-     * @param Request $request
+     * @param string $apiKey
      */
-    private function isKeyValid(Request $request)
+    private function isKeyValid($apiKey)
     {
-        $key = $request->get('api_key');
-        $user = $this->userRepository->findUserByKey($key);
+        $user = $this->userRepository->findUserByKey($apiKey);
 
         if(!$user) {
             throw new AccessDeniedHttpException('Your API key is not valid');

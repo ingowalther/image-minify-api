@@ -3,7 +3,6 @@
 namespace IngoWalther\ImageMinifyApi\Test\Security;
 
 use IngoWalther\ImageMinifyApi\Security\ApiKeyCheck;
-use Symfony\Component\HttpFoundation\Request;
 
 class ApiKeyCheckTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,33 +26,19 @@ class ApiKeyCheckTest extends \PHPUnit_Framework_TestCase
         $this->object = new ApiKeyCheck($this->userRepository);
     }
 
-    public function testCheckWithNoKeyInRequest()
-    {
-        $request = new Request();
-
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
-        $this->object->check($request);
-    }
-
     public function testCheckWithInvalidAPIKey()
     {
-        $request = new Request();
-        $request->query->set('api_key', 'invalid');
-
         $this->userRepository->expects($this->once())
              ->method('findUserByKey')
              ->with('invalid')
              ->will($this->returnValue(false));
 
         $this->setExpectedException('Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException');
-        $this->object->check($request);
+        $this->object->check('invalid');
     }
 
     public function testWithValidAPIKey()
     {
-        $request = new Request();
-        $request->query->set('api_key', 'valid');
-
         $fakeUser = array('fakeuser' => true);
 
         $this->userRepository->expects($this->once())
@@ -61,7 +46,7 @@ class ApiKeyCheckTest extends \PHPUnit_Framework_TestCase
             ->with('valid')
             ->will($this->returnValue($fakeUser));
 
-        $result = $this->object->check($request);
+        $result = $this->object->check('valid');
         $this->assertEquals($fakeUser, $result);
     }
 }
