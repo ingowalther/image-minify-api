@@ -13,7 +13,11 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->object = new ErrorHandler();
+        $logger = $this->getMockBuilder('Monolog\Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->object = new ErrorHandler($logger);
     }
 
     public function testWith404()
