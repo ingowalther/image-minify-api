@@ -46,6 +46,11 @@ chmod a+x bin/console;
 bin/console image-minify-api:setup
 ```
 
+### Set permissions for files
+```sh
+chmod a+rw log
+```
+
 ### Setup Webserver
 ```
 vHost DocRoot -> web/
@@ -66,7 +71,7 @@ POST with Params "api_key" and File with Name "image" to http://yourserver/minif
 
 Example:
 ```sh
-curl --form "image=@test.jpg" --form api_key=VVDFNNflLIQdCH5vnx0RkmCxxjhHIL6  http://localhost/minify > test_2.jpg
+curl --form "image=@test.jpg" --form api_key=VVDFNNflLIQdCH5vnx0RkmCxxjhHIL6  http://localhost/minify > result.json
 ```
 
 #### Response
