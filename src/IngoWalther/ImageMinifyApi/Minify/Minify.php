@@ -76,8 +76,9 @@ class Minify
         $fomatter = new FileSizeFormatter();
 
         $this->logger->info(
-            sprintf('[%s] Succesfully compressed Image - Old: %s, New: %s, Saving: %d%%',
+            sprintf('[%s] Succesfully compressed Image (%s) - Old: %s, New: %s, Saving: %d%%',
                 $user['name'],
+                $file->getClientOriginalName(),
                 $fomatter->humanReadable($oldSize),
                 $fomatter->humanReadable($newSize),
                 $saving)
