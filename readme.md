@@ -34,10 +34,13 @@ composer install
 ```
 ### Set Database-Connection
 
-Change  'config/services.yml':
+Create  'config/parameters.yml' (Copy 'config/parameters.yml.dist') and set your Databaseconnection:
 ```yaml
-  connentionParams:
-    url: mysql://root:root@localhost/image-minify-api
+parameters:
+  db_config.database: image-minify-api
+  db_config.user: root
+  db_config.password: root
+  db_config.host: localhost
 ```
 to your settings
 ### Create Database Tables

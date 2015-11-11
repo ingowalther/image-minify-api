@@ -1,0 +1,5 @@
+parameters:
+  db_config.database: image-minify-api
+  db_config.user: root
+  db_config.password: root
+  db_config.host: localhost
