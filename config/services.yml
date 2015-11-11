@@ -14,10 +14,13 @@ services:
     calls:
       - [addCompressor, [@mozJpegCompressor]]
       - [addCompressor, [@pngquantCompressor]]
+      - [addCompressor, [@svgoCompressor]]
   mozJpegCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor
   pngquantCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\PngquantCompressor
+  svgoCompressor:
+    class: IngoWalther\ImageMinifyApi\Compressor\SVGOComporessor
   fileHandler:
     class: IngoWalther\ImageMinifyApi\File\FileHandler
   randomStringGenerator:

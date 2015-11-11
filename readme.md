@@ -22,6 +22,7 @@ Install an Image-Compression-Service (like TinyPng, JPEGMini) on your own Server
 Currently supports:
  - jpeg (mozJpeg, Installation Instructions: http://mozjpeg.codelove.de/binaries.html)
  - png (pngquant, https://pngquant.org/)
+ - svg (SVGO, https://github.com/svg/svgo)
 
 ## Installation
 ### Clone Repository
