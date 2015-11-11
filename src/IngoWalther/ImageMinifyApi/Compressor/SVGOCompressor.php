@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * Class SVGOComporessor
  * @package IngoWalther\ImageMinifyApi\Compressor
  */
-class SVGOComporessor implements Compressor
+class SVGOCompressor implements Compressor
 {
     /**
      * @return string

@@ -20,7 +20,7 @@ services:
   pngquantCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\PngquantCompressor
   svgoCompressor:
-    class: IngoWalther\ImageMinifyApi\Compressor\SVGOComporessor
+    class: IngoWalther\ImageMinifyApi\Compressor\SVGOCompressor
   fileHandler:
     class: IngoWalther\ImageMinifyApi\File\FileHandler
   randomStringGenerator:
