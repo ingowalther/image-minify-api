@@ -34,7 +34,7 @@ composer install
 ```
 ### Set Database-Connection
 
-Create  'config/parameters.yml' (Copy 'config/parameters.yml.dist') and set your Databaseconnection:
+Create  'config/parameters.yml' (Copy 'config/parameters.yml.dist') and set your Database connection:
 ```yaml
 parameters:
   db_config.database: image-minify-api
