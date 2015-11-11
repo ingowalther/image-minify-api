@@ -83,7 +83,7 @@ class Minify
                 $saving)
         );
 
-        return new CompressedFileResponse($oldSize, $newSize, $binaryContent);
+        return new CompressedFileResponse($oldSize, $newSize, $saving, $binaryContent);
     }
 
     /**

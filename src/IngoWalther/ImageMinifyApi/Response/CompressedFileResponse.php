@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class CompressedFileResponse extends JsonResponse
 {
-    public function __construct($oldSize, $newSize, $binaryContent, $status = 200, array $headers = array())
+    public function __construct($oldSize, $newSize, $saving, $binaryContent, $status = 200, array $headers = array())
     {
         $data = [
             'success' => true,
             'oldSize' => $oldSize,
             'newSize' => $newSize,
+            'saving' => $saving,
             'image' => base64_encode($binaryContent)
         ];
 

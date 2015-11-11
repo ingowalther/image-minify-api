@@ -1,6 +1,6 @@
 # Image Minify API
 
-Install a Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
+Install an Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!
 
 [![Build Status](https://travis-ci.org/ingowalther/image-minify-api.svg?branch=master)](https://travis-ci.org/ingowalther/image-minify-api)
 
@@ -89,6 +89,7 @@ You will get a Json-Response like this:
 | success | true or false  |
 | oldSize  | ImageSize before compressing (in Byte)  |
 | newSize  | ImageSize after compressing (in Byte)  |
+| saving | The saving of bytes in percent |
 | image  | The binarydata of the compressed image (base64 encoded)  |
 
 ### List all user
