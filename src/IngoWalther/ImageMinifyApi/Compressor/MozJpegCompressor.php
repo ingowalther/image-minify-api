@@ -29,7 +29,7 @@ class MozJpegCompressor implements Compressor
         $shell = new Exec();
 
         $command = new Command(
-            sprintf('/opt/mozjpeg/bin/cjpeg -quality 70 %s > %s', $file->getRealPath(), $file->getRealPath() . 'compressed')
+            sprintf('/opt/mozjpeg/bin/cjpeg -quality 82 %s > %s', $file->getRealPath(), $file->getRealPath() . 'compressed')
         );
 
         $shell->run($command);
