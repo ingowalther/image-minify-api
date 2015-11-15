@@ -51,8 +51,8 @@ services:
       - [pushHandler, [@logHandler]]
 
   logHandler:
-    class: Monolog\Handler\StreamHandler
-    arguments: [%logPath%/app.log]
+    class: Monolog\Handler\RotatingFileHandler
+    arguments: [%logPath%/app.log, 7]
 
   console:
     class: Symfony\Component\Console\Application
