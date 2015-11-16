@@ -67,6 +67,40 @@ class Minify
         $oldSize = $this->fileHandler->getFileSize($file->getRealPath());
         $newSize = $this->fileHandler->getFileSize($path);
 
+        if($newSize < $oldSize) {
+            return $this->handleSuccess($file, $user, $path, $oldSize, $newSize);
+        }
+
+        return $this->handleNewFileBigger($file, $user, $path, $oldSize, $newSize);
+    }
+
+    /**
+     * @param $fileType
+     * @return Compressor
+     */
+    private function getCompressorToUse($fileType)
+    {
+        foreach ($this->compressors as $compressor) {
+            if ($compressor->getFileTypeToHandle() == $fileType) {
+                return $compressor;
+            }
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf('Filetype "%s" not supported', $fileType)
+        );
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @param $user
+     * @param $path
+     * @param $oldSize
+     * @param $newSize
+     * @return CompressedFileResponse
+     */
+    private function handleSuccess(UploadedFile $file, $user, $path, $oldSize, $newSize)
+    {
         $binaryContent = $this->fileHandler->getFileContent($path);
         $this->fileHandler->delete($path);
 
@@ -88,20 +122,35 @@ class Minify
     }
 
     /**
-     * @param $fileType
-     * @return Compressor
+     * @param UploadedFile $file
+     * @param $user
+     * @param $oldSize
+     * @param $newSize
+     * @param $path
+     * @return CompressedFileResponse
      */
-    private function getCompressorToUse($fileType)
+    private function handleNewFileBigger(UploadedFile $file, $user, $path, $oldSize, $newSize)
     {
-        foreach ($this->compressors as $compressor) {
-            if ($compressor->getFileTypeToHandle() == $fileType) {
-                return $compressor;
-            }
-        }
+        $savingCalculator = new SavingCalculator();
+        $saving = $savingCalculator->calculate($oldSize, $newSize);
 
-        throw new \InvalidArgumentException(
-            sprintf('Filetype "%s" not supported', $fileType)
+        $fomatter = new FileSizeFormatter();
+
+        $this->logger->info(
+            sprintf('[%s] New image is bigger than the original one - returning original image (%s) - Old: %s, New: %s, Saving: %d%%',
+                $user['name'],
+                $file->getClientOriginalName(),
+                $fomatter->humanReadable($oldSize),
+                $fomatter->humanReadable($newSize),
+                $saving)
         );
+
+        $binaryContent = $this->fileHandler->getFileContent($file->getRealPath());
+        $this->fileHandler->delete($path);
+        $newSize = $oldSize;
+        $saving = 0;
+
+        return new CompressedFileResponse($oldSize, $newSize, $saving, $binaryContent);
     }
 
 }

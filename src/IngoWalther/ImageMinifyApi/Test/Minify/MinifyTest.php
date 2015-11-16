@@ -94,6 +94,52 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('IngoWalther\ImageMinifyApi\Response\CompressedFileResponse', get_class($result));
     }
 
+    public function testWithMatchingCompressorAndNewFileBigger()
+    {
+        $image = $this->createMockFile();
+
+        $this->fileHandler->expects($this->once())
+            ->method('getFileType')
+            ->with('/tmp/foobar')
+            ->will($this->returnValue('image/jpeg'));
+
+        $compressor = $this->createMockCompressor('image/jpeg');
+
+        $compressor->expects($this->once())
+            ->method('compress')
+            ->with($image)
+            ->will($this->returnValue('/tmp/foobar_compressed'));
+
+        $this->fileHandler->expects($this->at(1))
+            ->method('getFileSize')
+            ->with('/tmp/foobar')
+            ->will($this->returnValue(1000));
+
+        $this->fileHandler->expects($this->at(2))
+            ->method('getFileSize')
+            ->with('/tmp/foobar_compressed')
+            ->will($this->returnValue(1001));
+
+        $this->fileHandler->expects($this->at(3))
+            ->method('getFileContent')
+            ->with('/tmp/foobar')
+            ->will($this->returnValue('Foobar'));
+
+        $this->fileHandler->expects($this->at(4))
+            ->method('delete')
+            ->with('/tmp/foobar_compressed');
+
+        $this->object->addCompressor($compressor);
+        $result = $this->object->minify($image, ['name' => 'foobar']);
+
+        $this->assertEquals('IngoWalther\ImageMinifyApi\Response\CompressedFileResponse', get_class($result));
+
+        $resultData = json_decode($result->getContent());
+
+        $this->assertEquals(1000, $resultData->newSize);
+        $this->assertEquals(0, $resultData->saving);
+    }
+
     private function createMockFile()
     {
         $file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')
