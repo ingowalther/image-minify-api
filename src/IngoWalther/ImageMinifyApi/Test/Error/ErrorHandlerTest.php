@@ -28,7 +28,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(404, $response->getStatusCode());
 
         $data = array(
-            'success' => 'false',
+            'success' => false,
             'code' => '404',
             'message' => 'The requested page could not be found.',
         );
@@ -47,7 +47,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(500, $response->getStatusCode());
 
         $data = array(
-            'success' => 'false',
+            'success' => false,
             'code' => '500',
             'message' => $message,
         );
