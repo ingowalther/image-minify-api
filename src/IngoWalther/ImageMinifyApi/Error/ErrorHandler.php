@@ -35,14 +35,14 @@ class ErrorHandler
         switch ($code) {
             case 404:
                 $data = array(
-                    'success' => 'false',
+                    'success' => false,
                     'code' => '404',
                     'message' => 'The requested page could not be found.',
                 );
                 break;
             default:
                 $data = array(
-                    'success' => 'false',
+                    'success' => false,
                     'code' => $code,
                     'message' => $e->getMessage(),
                 );
