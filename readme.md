@@ -16,8 +16,10 @@ Install an Image-Compression-Service (like TinyPng, JPEGMini) on your own Server
 	    - [Compress an Image](#compress-an-image)
 		    - [Response](#response)
 		- [List all user](#list-all-user)    
-    - [Clients](#api-clients)         
-	- [TODO](#todo)	
+    - [Clients](#api-clients)
+    	- [PHP](#api-clients)
+    	- [Grunt-Task](#api-clients)
+    - [TODO](#todo)	
 
 Currently supports:
  - jpeg (mozJpeg, Installation Instructions: http://mozjpeg.codelove.de/binaries.html)
@@ -108,6 +110,7 @@ Output:
 ## API-Clients
 
 PHP: https://github.com/ingowalther/image-minify-php-client
+Grunt-Task: https://github.com/yannicstadler/image-minify-api-grunt-task
 
 ## TODO
 - Quota
