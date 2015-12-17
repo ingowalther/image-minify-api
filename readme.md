@@ -110,6 +110,7 @@ Output:
 ## API-Clients
 
 PHP: https://github.com/ingowalther/image-minify-php-client
+
 Grunt-Task: https://github.com/yannicstadler/image-minify-api-grunt-task
 
 ## TODO
