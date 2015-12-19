@@ -25,4 +25,11 @@ interface Compressor
      * @return string
      */
     public function compress(UploadedFile $file);
+
+    /**
+     * Returns if the library is installed
+     *
+     * @return bool
+     */
+    public function checkLibaryIsInstalled();
 }

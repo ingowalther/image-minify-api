@@ -61,7 +61,6 @@ class Minify
         $fileType = $this->fileHandler->getFileType($file->getRealPath());
 
         $compressorToUse = $this->getCompressorToUse($fileType);
-
         $path = $compressorToUse->compress($file);
 
         $oldSize = $this->fileHandler->getFileSize($file->getRealPath());
@@ -82,7 +81,9 @@ class Minify
     {
         foreach ($this->compressors as $compressor) {
             if ($compressor->getFileTypeToHandle() == $fileType) {
-                return $compressor;
+                if($compressor->checkLibaryIsInstalled()) {
+                    return $compressor;
+                }
             }
         }
 

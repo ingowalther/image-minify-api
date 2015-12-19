@@ -53,6 +53,19 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
         $this->object->minify($this->createMockFile(), ['name' => 'foobar']);
     }
 
+    public function testWithNoCompressorButLibaryNotInstalled()
+    {
+        $this->fileHandler->expects($this->once())
+            ->method('getFileType')
+            ->with('/tmp/foobar')
+            ->will($this->returnValue('image/png'));
+
+        $this->setExpectedException('InvalidArgumentException');
+
+        $this->object->addCompressor($this->createMockCompressor('image/jpeg', $installed = false));
+        $this->object->minify($this->createMockFile(), ['name' => 'foobar']);
+    }
+
     public function testWithMatchingCompressor()
     {
         $image = $this->createMockFile();
@@ -153,7 +166,7 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
         return $file;
     }
 
-    private function createMockCompressor($type)
+    private function createMockCompressor($type, $installed = true)
     {
         $compressor = $this->getMockBuilder('IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor')
                            ->disableOriginalConstructor(true)
@@ -162,6 +175,10 @@ class MinifyTest extends \PHPUnit_Framework_TestCase
         $compressor->expects($this->any())
                    ->method('getFileTypeToHandle')
                    ->will($this->returnValue($type));
+
+        $compressor->expects($this->any())
+                   ->method('checkLibaryIsInstalled')
+                   ->will($this->returnValue($installed));
 
         return $compressor;
     }

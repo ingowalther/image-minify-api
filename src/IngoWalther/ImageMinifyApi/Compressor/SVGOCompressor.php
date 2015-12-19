@@ -35,10 +35,28 @@ class SVGOCompressor implements Compressor
         $shell->run($command);
 
         if (!file_exists($file->getRealPath() . 'compressed')) {
-            throw new \RuntimeException('No compressed Image created! Is SVGO installed?');
+            throw new \RuntimeException('No compressed Image created!');
         }
 
         return $file->getRealPath() . 'compressed';
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkLibaryIsInstalled()
+    {
+        $shell = new Exec();
+
+        $command = new Command('svgo');
+        $command->addFlag(new Command\Flag('v'));
+
+        $shell->run($command);
+
+        if($shell->getReturnValue() === 0) {
+            return true;
+        }
+        return false;
     }
 
 }

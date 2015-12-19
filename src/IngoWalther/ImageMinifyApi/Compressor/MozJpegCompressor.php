@@ -35,9 +35,28 @@ class MozJpegCompressor implements Compressor
         $shell->run($command);
 
         if (!file_exists($file->getRealPath() . 'compressed')) {
-            throw new \RuntimeException('No compressed Image created! Is mozjpeg installed?');
+            throw new \RuntimeException('No compressed Image created!');
         }
 
         return $file->getRealPath() . 'compressed';
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkLibaryIsInstalled()
+    {
+        $shell = new Exec();
+
+        $command = new Command('/opt/mozjpeg/bin/cjpeg');
+        $command->addFlag(new Command\Flag('version'));
+
+        $shell->run($command);
+
+        if($shell->getReturnValue() === 0) {
+            return true;
+        }
+
+        return false;
     }
 }
