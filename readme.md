@@ -6,8 +6,7 @@ Install an Image-Compression-Service (like TinyPng, JPEGMini) on your own Server
 
 - [Image Minify API](#)
 	- [Installation](#installation)
-		- [Clone Repository](#clone-repository)
-		- [Install Dependencies (Composer)](#install-dependencies-composer)
+		- [Install Project](#install-project)
 		- [Set Database-Connection](#set-database-connection)
 		- [Create Database Tables](#create-database-tables)
 		- [Setup Webserver](#setup-webserver)
