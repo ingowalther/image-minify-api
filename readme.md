@@ -27,13 +27,9 @@ Currently supports:
  - svg (SVGO, https://github.com/svg/svgo)
 
 ## Installation
-### Clone Repository
+### Install Project
 ```sh
-git clone git@github.com:ingowalther/image-minify-api.git
-```
-### Install Dependencies (Composer)
-```sh
-composer install
+composer create-project ingowalther/image-minify-api %installation-folder-name%
 ```
 ### Set Database-Connection
 
