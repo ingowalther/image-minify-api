@@ -25,5 +25,6 @@
     "psr-0": {
       "IngoWalther\\ImageMinifyApi\\": "src/"
     }
-  }
+  },
+  "minimum-stability": "dev"
 }
