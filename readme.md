@@ -24,6 +24,7 @@ Currently supports:
  - jpeg (mozJpeg, Installation Instructions: http://mozjpeg.codelove.de/binaries.html)
  - png (pngquant, https://pngquant.org/)
  - svg (SVGO, https://github.com/svg/svgo)
+ - gif (Gifsicle, https://www.lcdf.org/gifsicle/)
 
 ## Installation
 ### Install Project
