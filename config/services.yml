@@ -15,12 +15,15 @@ services:
       - [addCompressor, [@mozJpegCompressor]]
       - [addCompressor, [@pngquantCompressor]]
       - [addCompressor, [@svgoCompressor]]
+      - [addCompressor, [@gifsicleCompressor]]
   mozJpegCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor
   pngquantCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\PngquantCompressor
   svgoCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\SVGOCompressor
+  gifsicleCompressor:
+    class: IngoWalther\ImageMinifyApi\Compressor\GifsicleCompressor
   fileHandler:
     class: IngoWalther\ImageMinifyApi\File\FileHandler
   randomStringGenerator:
