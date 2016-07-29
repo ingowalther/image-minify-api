@@ -12,4 +12,5 @@ matrix:
     - php: nightly
 
 before_script:
+  - rm composer.lock vendor
   - composer install --no-dev
