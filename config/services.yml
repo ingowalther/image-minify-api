@@ -11,38 +11,53 @@ services:
   minify:
     class: IngoWalther\ImageMinifyApi\Minify\Minify
     arguments: [@fileHandler, @logger]
-    calls:
-      - [addCompressor, [@mozJpegCompressor]]
-      - [addCompressor, [@pngquantCompressor]]
-      - [addCompressor, [@svgoCompressor]]
-      - [addCompressor, [@gifsicleCompressor]]
+
   mozJpegCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor
+    tags:
+        - { name: image.compressor, alias: jpeg}
+
   pngquantCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\PngquantCompressor
+    tags:
+        - { name: image.compressor, alias: png}
+
   svgoCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\SVGOCompressor
+    tags:
+        - { name: image.compressor, alias: svgo}
+
   gifsicleCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\GifsicleCompressor
+    tags:
+        - { name: image.compressor, alias: gif}
+
   fileHandler:
     class: IngoWalther\ImageMinifyApi\File\FileHandler
+
   randomStringGenerator:
     class: IngoWalther\ImageMinifyApi\Security\RandomStringGenerator
+
   apiKeyCheck:
     class: IngoWalther\ImageMinifyApi\Security\ApiKeyCheck
     arguments: [@userRepository]
+
   apiKeyGenerator:
     class: IngoWalther\ImageMinifyApi\Security\ApiKeyGenerator
     arguments: [@userRepository, @randomStringGenerator]
+
   userRepository:
     class: IngoWalther\ImageMinifyApi\Database\UserRepository
     arguments: [@dbConnection]
+
   dbConfig:
     class: Doctrine\DBAL\Configuration
+
   dbConnection:
     factory_class: Doctrine\DBAL\DriverManager
     factory_method: getConnection
     arguments: [%db%, @dbConfig]
+
   errorHandler:
     class: IngoWalther\ImageMinifyApi\Error\ErrorHandler
     arguments: [@logger]
@@ -59,20 +74,25 @@ services:
 
   console:
     class: Symfony\Component\Console\Application
-    calls:
-      - [add, [@addUserCommand]]
-      - [add, [@listUserCommand]]
-      - [add, [@setupCommand]]
+
   addUserCommand:
     class: IngoWalther\ImageMinifyApi\Command\AddUserCommand
     calls:
       - [setApiKeyGenerator, [@apiKeyGenerator]]
+    tags:
+      - { name: console.command, alias: user}
+
   listUserCommand:
     class: IngoWalther\ImageMinifyApi\Command\ListUserCommand
     calls:
       - [setUserRepository, [@userRepository]]
+    tags:
+      - { name: console.command, alias: listUser}
+
   setupCommand:
     class: IngoWalther\ImageMinifyApi\Command\SetupCommand
     calls:
       - [setConnection, [@dbConnection]]
       - [setConfigPath, [%configPath%]]
+    tags:
+      - { name: console.command, alias: setup}
