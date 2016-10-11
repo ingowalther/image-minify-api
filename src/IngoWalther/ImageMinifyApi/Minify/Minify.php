@@ -66,7 +66,7 @@ class Minify
         $oldSize = $this->fileHandler->getFileSize($file->getRealPath());
         $newSize = $this->fileHandler->getFileSize($path);
 
-        if($newSize < $oldSize) {
+        if ($newSize < $oldSize) {
             return $this->handleSuccess($file, $user, $path, $oldSize, $newSize);
         }
 
@@ -81,7 +81,7 @@ class Minify
     {
         foreach ($this->compressors as $compressor) {
             if ($compressor->getFileTypeToHandle() == $fileType) {
-                if($compressor->checkLibaryIsInstalled()) {
+                if ($compressor->checkLibaryIsInstalled()) {
                     return $compressor;
                 }
             }
