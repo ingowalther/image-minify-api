@@ -14,21 +14,25 @@ services:
 
   mozJpegCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\MozJpegCompressor
+    arguments: ['%compressor.mozjpeg.binary_path%', '%compressor.mozjpeg.command%']
     tags:
         - { name: image.compressor, alias: jpeg}
 
   pngquantCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\PngquantCompressor
+    arguments: ['%compressor.pngquant.binary_path%', '%compressor.pngquant.command%']
     tags:
         - { name: image.compressor, alias: png}
 
   svgoCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\SVGOCompressor
+    arguments: ['%compressor.svgo.binary_path%', '%compressor.svgo.command%']
     tags:
         - { name: image.compressor, alias: svgo}
 
   gifsicleCompressor:
     class: IngoWalther\ImageMinifyApi\Compressor\GifsicleCompressor
+    arguments: ['%compressor.gifsicle.binary_path%', '%compressor.gifsicle.command%']
     tags:
         - { name: image.compressor, alias: gif}
 

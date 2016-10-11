@@ -13,6 +13,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class MozJpegCompressor implements Compressor
 {
     /**
+     * @var string
+     */
+    private $binaryPath;
+
+    /**
+     * @var string
+     */
+    private $command;
+
+    /**
+     * MozJpegCompressor constructor.
+     * @param $binaryPath
+     * @param $command
+     */
+    public function __construct($binaryPath, $command)
+    {
+        $this->binaryPath = $binaryPath;
+        $this->command = $command;
+    }
+
+    /**
      * @return string
      */
     public function getFileTypeToHandle()
@@ -29,7 +50,7 @@ class MozJpegCompressor implements Compressor
         $shell = new Exec();
 
         $command = new Command(
-            sprintf('/opt/mozjpeg/bin/cjpeg -quality 82 %s > %s', $file->getRealPath(), $file->getRealPath() . 'compressed')
+            sprintf($this->command, $file->getRealPath(), $file->getRealPath() . 'compressed')
         );
 
         $shell->run($command);
@@ -48,12 +69,12 @@ class MozJpegCompressor implements Compressor
     {
         $shell = new Exec();
 
-        $command = new Command('/opt/mozjpeg/bin/cjpeg');
+        $command = new Command($this->binaryPath);
         $command->addFlag(new Command\Flag('version'));
 
         $shell->run($command);
 
-        if($shell->getReturnValue() === 0) {
+        if ($shell->getReturnValue() === 0) {
             return true;
         }
 
