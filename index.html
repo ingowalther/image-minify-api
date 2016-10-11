@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Image-minify-api by ingowalther</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Image-minify-api</h1>
+      <h2 class="project-tagline">Image Minify API</h2>
+      <a href="https://github.com/ingowalther/image-minify-api" class="btn">View on GitHub</a>
+      <a href="https://github.com/ingowalther/image-minify-api/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/ingowalther/image-minify-api/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="image-minify-api" class="anchor" href="#image-minify-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Image Minify API</h1>
+
+<p>Install an Image-Compression-Service (like TinyPng, JPEGMini) on your own Server!</p>
+
+<p><a href="https://travis-ci.org/ingowalther/image-minify-api"><img src="https://travis-ci.org/ingowalther/image-minify-api.svg?branch=master" alt="Build Status"></a></p>
+
+<ul>
+<li>
+<a href="#">Image Minify API</a>
+
+<ul>
+<li>
+<a href="#installation">Installation</a>
+
+<ul>
+<li><a href="#install-project">Install Project</a></li>
+<li><a href="#set-database-connection">Set Database-Connection</a></li>
+<li><a href="#create-database-tables">Create Database Tables</a></li>
+<li><a href="#setup-webserver">Setup Webserver</a></li>
+</ul>
+</li>
+<li>
+<a href="#usage">Usage</a>
+
+<ul>
+<li><a href="#create-api-key">Create API-Key</a></li>
+<li>
+<a href="#compress-an-image">Compress an Image</a>
+
+<ul>
+<li><a href="#response">Response</a></li>
+</ul>
+</li>
+<li>
+<a href="#list-all-user">List all user</a><br>
+</li>
+</ul>
+</li>
+<li>
+<a href="#api-clients">Clients</a>
+
+<ul>
+<li><a href="#api-clients">PHP</a></li>
+<li><a href="#api-clients">Grunt-Task</a></li>
+</ul>
+</li>
+<li>
+<a href="#todo">TODO</a> </li>
+</ul>
+</li>
+</ul>
+
+<p>Currently supports:</p>
+
+<ul>
+<li>jpeg (mozJpeg, Installation Instructions: <a href="http://mozjpeg.codelove.de/binaries.html">http://mozjpeg.codelove.de/binaries.html</a>)</li>
+<li>png (pngquant, <a href="https://pngquant.org/">https://pngquant.org/</a>)</li>
+<li>svg (SVGO, <a href="https://github.com/svg/svgo">https://github.com/svg/svgo</a>)</li>
+<li>gif (Gifsicle, <a href="https://www.lcdf.org/gifsicle/">https://www.lcdf.org/gifsicle/</a>)</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<h3>
+<a id="install-project" class="anchor" href="#install-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install Project</h3>
+
+<div class="highlight highlight-source-shell"><pre>composer create-project ingowalther/image-minify-api %installation-folder-name%</pre></div>
+
+<h3>
+<a id="set-database-connection" class="anchor" href="#set-database-connection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set Database-Connection</h3>
+
+<p>Create  'config/parameters.yml' (Copy 'config/parameters.yml.dist') and set your Database connection:</p>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">parameters:</span>
+  <span class="pl-ent">db_config.database:</span> <span class="pl-s">image-minify-api</span>
+  <span class="pl-ent">db_config.user:</span> <span class="pl-s">root</span>
+  <span class="pl-ent">db_config.password:</span> <span class="pl-s">root</span>
+  <span class="pl-ent">db_config.host:</span> <span class="pl-s">localhost</span></pre></div>
+
+<p>to your settings</p>
+
+<h3>
+<a id="create-database-tables" class="anchor" href="#create-database-tables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create Database Tables</h3>
+
+<div class="highlight highlight-source-shell"><pre>chmod a+x bin/console<span class="pl-k">;</span>
+bin/console image-minify-api:setup</pre></div>
+
+<h3>
+<a id="set-permissions-for-files" class="anchor" href="#set-permissions-for-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set permissions for files</h3>
+
+<div class="highlight highlight-source-shell"><pre>chmod a+rw log</pre></div>
+
+<h3>
+<a id="setup-webserver" class="anchor" href="#setup-webserver" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup Webserver</h3>
+
+<pre><code>vHost DocRoot -&gt; web/
+</code></pre>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<h3>
+<a id="create-api-key" class="anchor" href="#create-api-key" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create API-Key</h3>
+
+<div class="highlight highlight-source-shell"><pre> bin/console user:add</pre></div>
+
+<p>Enter a Username.
+If the user is created correctly you will see the API-Key in your Terminal.</p>
+
+<h3>
+<a id="compress-an-image" class="anchor" href="#compress-an-image" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compress an Image</h3>
+
+<p>POST with Params "api_key" and File with Name "image" to http://yourserver/minify</p>
+
+<p>Example:</p>
+
+<div class="highlight highlight-source-shell"><pre>curl --form <span class="pl-s"><span class="pl-pds">"</span>image=@test.jpg<span class="pl-pds">"</span></span> --form api_key=VVDFNNflLIQdCH5vnx0RkmCxxjhHIL6  http://localhost/minify <span class="pl-k">&gt;</span> result.json</pre></div>
+
+<h4>
+<a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h4>
+
+<p>You will get a Json-Response like this:</p>
+
+<div class="highlight highlight-source-json"><pre>{
+   <span class="pl-s"><span class="pl-pds">"</span>success<span class="pl-pds">"</span></span>:<span class="pl-c1">true</span>,
+   <span class="pl-s"><span class="pl-pds">"</span>oldSize<span class="pl-pds">"</span></span>:<span class="pl-c1">539</span>,
+   <span class="pl-s"><span class="pl-pds">"</span>newSize<span class="pl-pds">"</span></span>:<span class="pl-c1">394</span>,
+   <span class="pl-s"><span class="pl-pds">"</span>saving<span class="pl-pds">"</span></span>: <span class="pl-c1">26</span>,
+   <span class="pl-s"><span class="pl-pds">"</span>image<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\/</span>9j<span class="pl-cce">\/</span>4AAQSkZJRgABAQAAAQABAAD<span class="pl-cce">\/\/</span>gATQ3JlYXRlZCB3aXRoIEdJTVD<span class="pl-cce">\/</span>2wCEAAoKCgoKCgsMDAsPEA4QDxYUExMUFiIYGhgaGCIzICUgICUgMy03LCksNy1RQDg4QFFeT0pPXnFlZXGPiI+7u<span class="pl-cce">\/</span>sBCgoKCgoKCwwMCw8QDhAPFhQTExQWIhgaGBoYIjMgJSAgJSAzLTcsKSw3LVFAODhAUV5PSk9ecWVlcY+Ij7u7+<span class="pl-cce">\/\/</span>CABEIAAEAAQMBIgACEQEDEQH<span class="pl-cce">\/</span>xAAUAAEAAAAAAAAAAAAAAAAAAAAH<span class="pl-cce">\/</span>9oACAEBAAAAAGb<span class="pl-cce">\/</span>xAAUAQEAAAAAAAAAAAAAAAAAAAAA<span class="pl-cce">\/</span>9oACAECEAAAAH<span class="pl-cce">\/\/</span>xAAUAQEAAAAAAAAAAAAAAAAAAAAA<span class="pl-cce">\/</span>9oACAEDEAAAAH<span class="pl-cce">\/\/</span>xAAUEAEAAAAAAAAAAAAAAAAAAAAA<span class="pl-cce">\/</span>9oACAEBAAE<span class="pl-cce">\/</span>AH<span class="pl-cce">\/\/</span>xAAUEQEAAAAAAAAAAAAAAAAAAAAA<span class="pl-cce">\/</span>9oACAECAQE<span class="pl-cce">\/</span>AH<span class="pl-cce">\/\/</span>xAAUEQEAAAAAAAAAAAAAAAAAAAAA<span class="pl-cce">\/</span>9oACAEDAQE<span class="pl-cce">\/</span>AH<span class="pl-cce">\/\/</span>2Q==<span class="pl-pds">"</span></span>
+}</pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>success</td>
+<td>true or false</td>
+</tr>
+<tr>
+<td>oldSize</td>
+<td>ImageSize before compressing (in Byte)</td>
+</tr>
+<tr>
+<td>newSize</td>
+<td>ImageSize after compressing (in Byte)</td>
+</tr>
+<tr>
+<td>saving</td>
+<td>The saving of bytes in percent</td>
+</tr>
+<tr>
+<td>image</td>
+<td>The binarydata of the compressed image (base64 encoded)</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="list-all-user" class="anchor" href="#list-all-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all user</h3>
+
+<div class="highlight highlight-source-shell"><pre> bin/console user:list</pre></div>
+
+<p>Output:</p>
+
+<p><img src="http://i.imgur.com/6SKcBcF.png" alt="Console output"></p>
+
+<h2>
+<a id="api-clients" class="anchor" href="#api-clients" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API-Clients</h2>
+
+<p>PHP: <a href="https://github.com/ingowalther/image-minify-php-client">https://github.com/ingowalther/image-minify-php-client</a></p>
+
+<p>Grunt-Task: <a href="https://github.com/yannicstadler/image-minify-api-grunt-task">https://github.com/yannicstadler/image-minify-api-grunt-task</a></p>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>Quota</li>
+<li>Setting quality over configuration</li>
+<li>Setting binary path configuration</li>
+<li>Logging</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/ingowalther/image-minify-api">Image-minify-api</a> is maintained by <a href="https://github.com/ingowalther">ingowalther</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
