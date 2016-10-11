@@ -3,3 +3,11 @@ parameters:
   db_config.user: root
   db_config.password: root
   db_config.host: localhost
+  compressor.mozjpeg.binary_path: '/opt/mozjpeg/bin/cjpeg'
+  compressor.mozjpeg.command: '%compressor.mozjpeg.binary_path% -quality 82 %s > %s'
+  compressor.gifsicle.binary_path: 'gifsicle'
+  compressor.gifsicle.command: '%compressor.gifsicle.binary_path% -O3 %s -o %s'
+  compressor.pngquant.binary_path: 'pngquant'
+  compressor.pngquant.command: '%compressor.pngquant.binary_path% --quality=60-90 %s --ext=%s -s1'
+  compressor.svgo.binary_path: 'svgo'
+  compressor.svgo.command: '%compressor.svgo.binary_path% %s %s'

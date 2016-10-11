@@ -13,6 +13,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class PngquantCompressor implements Compressor
 {
     /**
+     * @var string
+     */
+    private $binaryPath;
+
+    /**
+     * @var string
+     */
+    private $command;
+
+    /**
+     * PngquantCompressor constructor.
+     * @param $binaryPath
+     * @param $command
+     */
+    public function __construct($binaryPath, $command)
+    {
+        $this->binaryPath = $binaryPath;
+        $this->command = $command;
+    }
+
+    /**
      * @return string
      */
     public function getFileTypeToHandle()
@@ -29,7 +50,7 @@ class PngquantCompressor implements Compressor
         $shell = new Exec();
 
         $command = new Command(
-            sprintf('pngquant --quality=60-90 %s --ext=%s -s1', $file->getRealPath(), 'compressed')
+            sprintf($this->command, $file->getRealPath(), 'compressed')
         );
 
         $shell->run($command);
@@ -48,16 +69,15 @@ class PngquantCompressor implements Compressor
     {
         $shell = new Exec();
 
-        $command = new Command('pngquant');
+        $command = new Command($this->binaryPath);
         $command->addArgument(new Command\Argument('version'));
 
         $shell->run($command);
 
-        if($shell->getReturnValue() === 0) {
+        if ($shell->getReturnValue() === 0) {
             return true;
         }
 
         return false;
     }
-
 }

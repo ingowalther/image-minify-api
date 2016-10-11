@@ -13,6 +13,28 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class GifsicleCompressor implements Compressor
 {
+
+    /**
+     * @var string
+     */
+    private $binaryPath;
+
+    /**
+     * @var string
+     */
+    private $command;
+
+    /**
+     * GifsicleCompressor constructor.
+     * @param $binaryPath
+     * @param $command
+     */
+    public function __construct($binaryPath, $command)
+    {
+        $this->binaryPath = $binaryPath;
+        $this->command = $command;
+    }
+
     /**
      * @return string
      */
@@ -30,7 +52,7 @@ class GifsicleCompressor implements Compressor
         $shell = new Exec();
 
         $command = new Command(
-            sprintf('gifsicle -O3 %s -o %s', $file->getRealPath(), $file->getRealPath() . 'compressed')
+            sprintf($this->command, $file->getRealPath(), $file->getRealPath() . 'compressed')
         );
 
         $shell->run($command);
@@ -49,7 +71,7 @@ class GifsicleCompressor implements Compressor
     {
         $shell = new Exec();
 
-        $command = new Command('gifsicle');
+        $command = new Command($this->binaryPath);
         $command->addFlag(new Command\Flag('-version'));
 
         $shell->run($command);
@@ -60,5 +82,4 @@ class GifsicleCompressor implements Compressor
 
         return false;
     }
-
 }

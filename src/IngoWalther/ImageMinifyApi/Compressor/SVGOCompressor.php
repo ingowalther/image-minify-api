@@ -13,6 +13,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class SVGOCompressor implements Compressor
 {
     /**
+     * @var string
+     */
+    private $binaryPath;
+
+    /**
+     * @var string
+     */
+    private $command;
+
+    /**
+     * SVGOCompressor constructor.
+     * @param $binaryPath
+     * @param $command
+     */
+    public function __construct($binaryPath, $command)
+    {
+        $this->binaryPath = $binaryPath;
+        $this->command = $command;
+    }
+
+    /**
      * @return string
      */
     public function getFileTypeToHandle()
@@ -29,7 +50,7 @@ class SVGOCompressor implements Compressor
         $shell = new Exec();
 
         $command = new Command(
-            sprintf('svgo %s %s', $file->getRealPath(), $file->getRealPath() . 'compressed')
+            sprintf($this->command, $file->getRealPath(), $file->getRealPath() . 'compressed')
         );
 
         $shell->run($command);
@@ -48,15 +69,14 @@ class SVGOCompressor implements Compressor
     {
         $shell = new Exec();
 
-        $command = new Command('svgo');
+        $command = new Command($this->binaryPath);
         $command->addFlag(new Command\Flag('v'));
 
         $shell->run($command);
 
-        if($shell->getReturnValue() === 0) {
+        if ($shell->getReturnValue() === 0) {
             return true;
         }
         return false;
     }
-
 }
