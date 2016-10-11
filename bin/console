@@ -4,14 +4,18 @@
 use \Symfony\Component\DependencyInjection\ContainerBuilder;
 use \Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use \Symfony\Component\Config\FileLocator;
+use \IngoWalther\ImageMinifyApi\CompilerPass\CompressorPass;
+use \IngoWalther\ImageMinifyApi\CompilerPass\CommandPass;
 
 require __DIR__ .' /../vendor/autoload.php';
 
 $container = new ContainerBuilder();
+$container->addCompilerPass(new CompressorPass());
+$container->addCompilerPass(new CommandPass());
 $container->setParameter('basePath', realpath(__DIR__ . '/../'));
 $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config'));
 $loader->load('services.yml');
-
+$container->compile();
 
 /** @var \Symfony\Component\Console\Application $console */
 $console = $container->get('console');

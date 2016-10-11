@@ -54,6 +54,7 @@ services:
     class: Doctrine\DBAL\Configuration
 
   dbConnection:
+    class: Doctrine\DBAL\Connection
     factory_class: Doctrine\DBAL\DriverManager
     factory_method: getConnection
     arguments: [%db%, @dbConfig]

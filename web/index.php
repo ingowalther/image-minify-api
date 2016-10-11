@@ -16,6 +16,7 @@ $container->addCompilerPass(new CommandPass());
 $container->setParameter('basePath', realpath(__DIR__ . '/../'));
 $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config'));
 $loader->load('services.yml');
+$container->compile();
 
 $app->post('/minify', function(\Symfony\Component\HttpFoundation\Request $request) use ($container) {
 
