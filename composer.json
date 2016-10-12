@@ -24,7 +24,8 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+      "php bin/console image-minify-api:setup"
     ],
     "post-update-cmd": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
