@@ -6,9 +6,9 @@ Install an Image-Compression-Service (like TinyPng, JPEGMini) on your own Server
 
 - [Image Minify API](#)
 	- [Installation](#installation)
+	    - [Create Database](#create-database)
 		- [Install Project](#install-project)
-		- [Set Database-Connection](#set-database-connection)
-		- [Create Database Tables](#create-database-tables)
+		- [Set permissions for files](#set-permissions-for-files)
 		- [Setup Webserver](#setup-webserver)
 	- [Usage](#usage)
 		- [Create API-Key](#create-api-key)
@@ -27,25 +27,13 @@ Currently supports:
  - gif (Gifsicle, https://www.lcdf.org/gifsicle/)
 
 ## Installation
+
+### Create Database
+You sould create a database at first. In this database Image Minify API will create all necessary tables during composer install.
+
 ### Install Project
 ```sh
 composer create-project ingowalther/image-minify-api %installation-folder-name%
-```
-### Set Database-Connection
-
-Create  'config/parameters.yml' (Copy 'config/parameters.yml.dist') and set your Database connection:
-```yaml
-parameters:
-  db_config.database: image-minify-api
-  db_config.user: root
-  db_config.password: root
-  db_config.host: localhost
-```
-to your settings
-### Create Database Tables
-```sh
-chmod a+x bin/console;
-bin/console image-minify-api:setup
 ```
 
 ### Set permissions for files
@@ -111,6 +99,4 @@ Grunt-Task: https://github.com/yannicstadler/image-minify-api-grunt-task
 
 ## TODO
 - Quota
-- Setting quality over configuration
-- Setting binary path configuration
-- Logging
+
