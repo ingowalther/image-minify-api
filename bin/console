@@ -1,21 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use \Symfony\Component\Config\FileLocator;
-use \IngoWalther\ImageMinifyApi\CompilerPass\CompressorPass;
-use \IngoWalther\ImageMinifyApi\CompilerPass\CommandPass;
+use \IngoWalther\ImageMinifyApi\DependencyInjection\ContainerBuilder;
 
 require __DIR__ .' /../vendor/autoload.php';
 
-$container = new ContainerBuilder();
-$container->addCompilerPass(new CompressorPass());
-$container->addCompilerPass(new CommandPass());
-$container->setParameter('basePath', realpath(__DIR__ . '/../'));
-$loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config'));
-$loader->load('services.yml');
-$container->compile();
+$containerBuilder = new ContainerBuilder();
+$container = $containerBuilder->build(realpath(__DIR__ . '/../'));
 
 /** @var \Symfony\Component\Console\Application $console */
 $console = $container->get('console');

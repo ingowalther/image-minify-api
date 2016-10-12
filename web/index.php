@@ -1,26 +1,19 @@
 <?php
 
-use \Symfony\Component\DependencyInjection\ContainerBuilder;
-use \Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use \Symfony\Component\Config\FileLocator;
-use \IngoWalther\ImageMinifyApi\CompilerPass\CompressorPass;
-use \IngoWalther\ImageMinifyApi\CompilerPass\CommandPass;
+use \IngoWalther\ImageMinifyApi\DependencyInjection\ContainerBuilder;
+use \IngoWalther\ImageMinifyApi\Validator\RequestValidator;
+use \Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = new Silex\Application();
 
-$container = new ContainerBuilder();
-$container->addCompilerPass(new CompressorPass());
-$container->addCompilerPass(new CommandPass());
-$container->setParameter('basePath', realpath(__DIR__ . '/../'));
-$loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../config'));
-$loader->load('services.yml');
-$container->compile();
+$containerBuilder = new ContainerBuilder();
+$container = $containerBuilder->build(realpath(__DIR__ . '/../'));
 
-$app->post('/minify', function(\Symfony\Component\HttpFoundation\Request $request) use ($container) {
+$app->post('/minify', function(Request $request) use ($container) {
 
-    $validator = new \IngoWalther\ImageMinifyApi\Validator\RequestValidator();
+    $validator = new RequestValidator();
     $validator->validateRequest($request);
 
     $apiKeyCheck = $container->get('apiKeyCheck');

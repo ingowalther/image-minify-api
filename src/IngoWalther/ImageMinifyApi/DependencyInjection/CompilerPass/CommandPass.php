@@ -4,27 +4,27 @@
  * Date: 10/10/16
  * Time: 23:20
  */
-namespace IngoWalther\ImageMinifyApi\CompilerPass;
+namespace IngoWalther\ImageMinifyApi\DependencyInjection\CompilerPass;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class CompressorPass implements CompilerPassInterface
+class CommandPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('minify')) {
+        if (!$container->has('console')) {
             return;
         }
 
-        $definition = $container->findDefinition('minify');
-        $taggedServices = $container->findTaggedServiceIds('image.compressor');
+        $definition = $container->findDefinition('console');
+        $taggedServices = $container->findTaggedServiceIds('console.command');
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
                 $definition->addMethodCall(
-                    'addCompressor',
+                    'add',
                     array(new Reference($id))
                 );
             }
