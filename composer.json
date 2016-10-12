@@ -16,10 +16,24 @@
     "symfony/config": "2.7.6",
     "symfony/console": "2.7.6",
     "doctrine/dbal": "2.5.2",
-    "monolog/monolog": "1.17.2"
+    "monolog/monolog": "1.17.2",
+    "incenteev/composer-parameter-handler": "~2.1"
   },
   "require-dev": {
     "phpunit/phpunit": "5.0.*"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ]
+  },
+  "extra": {
+    "incenteev-parameters": {
+      "file": "config/parameters.yml"
+    }
   },
   "autoload": {
     "psr-0": {
