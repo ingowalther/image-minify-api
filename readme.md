@@ -29,7 +29,7 @@ Currently supports:
 ## Installation
 
 ### Create Database
-You sould create a database at first. In this database Image Minify API will create all necessary tables during composer install.
+You should create a database first. In this database Image Minify API will create all necessary tables during composer install.
 
 ### Install Project
 ```sh
