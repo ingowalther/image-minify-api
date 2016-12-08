@@ -97,6 +97,8 @@ PHP: https://github.com/ingowalther/image-minify-php-client
 
 Grunt-Task: https://github.com/yannicstadler/image-minify-api-grunt-task
 
+NodeJS: https://github.com/tomm1996/image-minify-nodejs-client
+
 ## TODO
 - Quota
 
