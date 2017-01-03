@@ -15,6 +15,8 @@ RUN     apk update \
         libtool \
         nasm
 
+## Add PDO and MySQL
+RUN docker-php-ext-install pdo pdo_mysql
 
 ## Add pngquant
 ARG INSTALL_PNGQUANT=false
@@ -103,8 +105,6 @@ RUN apk del git \
             build-base \
             libtool \
             nasm
-
-COPY . /image-minify
 
 WORKDIR /image-minify/web
 

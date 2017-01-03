@@ -16,7 +16,7 @@ services:
     ports:
       - "0.0.0.0:8080:8080"
     links:
-      - mysql
+      - mysql:mysql
 
   mysql:
     image: mysql:5.7
