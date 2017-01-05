@@ -99,8 +99,13 @@ RUN if [ ${INSTALL_SVGO} = true ]; then \
 
 ;fi
 
-RUN apk del git \
-            autoconf \
+## Add composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php && \
+    mv composer.phar  /bin/composer && \
+    php -r "unlink('composer-setup.php');"
+
+RUN apk del autoconf \
             automake \
             build-base \
             libtool \
