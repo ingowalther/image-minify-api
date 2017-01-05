@@ -1,0 +1,3 @@
+/vendor
+/config/parameters.yml
+composer.lock
